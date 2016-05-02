@@ -30,11 +30,12 @@
             /**
              * submitEnd event is triggered when the AJAX submission of the form has ended.
              * The signature of the event handler should be:
-             *     function (event, success, model)
+             *     function (event, success, modeldata)
              * where
              *  - event: an Event object.
              *  - success: boolean whether the save was successful
-             *  - model: the model as saved
+             *  - modeldata: the model data as received by the server either an array of model fields 
+             *  			 or an array of model field arrays
              */
             submitEnd: 'submitEnd',
             /**
@@ -90,7 +91,7 @@
                         data.submitted = false;
                     }
 
-                    $form.trigger(events.submitEnd, [response.success, response.model]);
+                    $form.trigger(events.submitEnd, [response.success, response.modeldata]);
                     setSavingButton(data, false);
                 }).fail( function(xhr, textStatus, errorThrown) {
                     data.submitted = false;

@@ -49,7 +49,7 @@ class AjaxSubmitAction extends BaseAjaxAction
             }
             return [
                 'success' => true,
-                'model' => ArrayHelper::toArray($models),
+                'modeldata' => ArrayHelper::toArray($models),
             ];
         }
         return false;
@@ -63,7 +63,7 @@ class AjaxSubmitAction extends BaseAjaxAction
         if ($model->load(Yii::$app->request->post())) {
             return [
                 'success' => $model->save(),
-                'model' => $model->toArray(),
+                'modeldata' => $model->toArray(),
             ];
         }
         return false;
