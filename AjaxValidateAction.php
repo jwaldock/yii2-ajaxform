@@ -13,9 +13,6 @@ use yii\widgets\ActiveForm;
 /**
  * AjaxValidateAction is an external [[Action]] that validates a [[\yii\widgets\ActiveForm]].
  * 
- * AjaxValidateAction is intended to be used with [[AjaxFormWidget]] to provide AJAX model submission
- * for [[\yii\widgets\ActiveForm]].
- * 
  * This action can be set up in a [[Controller]] like the following:
  * 
  * ```php
