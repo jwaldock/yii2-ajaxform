@@ -43,8 +43,7 @@ use yii\widgets\ActiveForm;
 class AjaxValidateAction extends BaseAjaxAction
 {   
     /**
-     * {@inheritDoc}
-     * @see \common\components\ajaxform\BaseAjaxAction::runTabular()
+     * @inheritDoc
      */
     protected function runTabular($models)
     {
@@ -55,8 +54,7 @@ class AjaxValidateAction extends BaseAjaxAction
     }
     
     /**
-     * {@inheritDoc}
-     * @see \common\components\ajaxform\BaseAjaxAction::runSingle()
+     * @inheritDoc
      */
     protected function runSingle($model)
     {       
