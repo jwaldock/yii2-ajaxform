@@ -11,11 +11,12 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\web\HttpException;
 use yii\web\Response;
+use yii\base\Model;
 
 /**
  * BaseAjaxAction is an abstract class that is the base for [[AjaxSubmitAction]] and [[AjaxValidateAction]].
  * 
- * Implementing classes should override [[runTabular()]] and [[runSingle()]].
+ * Implementing classes must override [[runTabular()]] and [[runSingle()]].
  * 
  * @author Joel Waldock <joel.c.waldock@gmail.com>
  */
@@ -24,7 +25,6 @@ abstract class BaseAjaxAction extends Action
     /**
      * @var string class name of the model which will be handled by this action.
      * The model class must be an instance of [[ActiveRecord]].
-     * This property must be set.
      */
     public $modelClass;
 
@@ -36,7 +36,7 @@ abstract class BaseAjaxAction extends Action
     /**
      * @var string The scenario to use when creating a model or models.
      */
-    public $scenario;
+    public $scenario = ActiveRecord::SCENARIO_DEFAULT;
 
     /**
      * @inheritDoc
@@ -60,51 +60,68 @@ abstract class BaseAjaxAction extends Action
      */
     public function run()
     {
-        $model = $this->getModel();
-        $model->scenario = isset($this->scenario) ? $this->scenario : $model->scenario;
-        
         Yii::$app->response->format = Response::FORMAT_JSON;
         if ($this->tabular) {
-            $count = count(Yii::$app->request->post($model->formName(), []));
-            $models = [];
-            for ($i = 0; $i < $count; $i++) {
-                $models[] = new $this->modelClass([
-                    'scenario' => $model->scenario,
-                ]);
-            }
+            $models = $this->loadModels();
             $response = $this->runTabular($models);
         } else {
+            $model = $this->loadModel();
             $response = $this->runSingle($model);
         }
-        if($response !== false) {
-            return $response;
+        return $response;
+    }
+
+    /**
+     * @throws HttpException
+     * @return \yii\db\ActiveRecord
+     */
+    protected function loadModel()
+    {
+        $model = $this->createModel();
+        if ($model->load(Yii::$app->request->post())) {
+            return $model;
         }
-        throw new HttpException(400, 'Bad POST data.');
+        throw new HttpException(400, 'Bad POST data - model failed to load.');
+    }
+
+    /**
+     * @throws HttpException
+     * @return \yii\db\ActiveRecord[]
+     */
+    protected function loadModels()
+    {
+        $count = count(Yii::$app->request->post($this->createModel()->formName(), []));
+        $models = [];
+        for ($i = 0; $i < $count; $i++) {
+            $models[] = $this->createModel();
+        }
+        if (Model::loadMultiple($models,  Yii::$app->request->post())) {
+            return $models;
+        }
+        throw new HttpException(400, 'Bad POST data - models failed to load.');
     }
     
-    
+
     /**
      * @return \yii\db\ActiveRecord
      */
-    protected function getModel()
+    protected function createModel()
     {
-        //TODO checking
-        if (is_a($model = new $this->modelClass, '\yii\db\ActiveRecord')) {
-            return $model;
-        }
-        throw new HttpException(500, 'AJAX submit action model not a ActiveRecord implementation');
+        return Yii::createObject([
+            'class' => $this->modelClass,
+            'scenario' => $this->scenario,
+        ]);
     }
-
+    
     /**
      * Returns a JSON array generated from multiple models.
      * 
      * The resulting array called and returned by [[run()]] if in tabular mode.
      * 
      * @param \yii\db\ActiveRecord[] $models
-     * @return array JSON 
+     * @return array data to be encoded into a JSON array
      */
     abstract protected function runTabular($models);
-    
 
     /**
      * Returns a JSON array generated from a single model.
@@ -112,7 +129,7 @@ abstract class BaseAjaxAction extends Action
      * The resulting array called and returned by [[run()]] if in single mode.
      * 
      * @param \yii\db\ActiveRecord $model
-     * @return array JSON 
+     * @return array data to be encoded into a JSON array
      */
     abstract protected function runSingle($model);
 }

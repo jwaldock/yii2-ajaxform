@@ -6,7 +6,6 @@
 
 namespace jwaldock\ajaxform;
 
-use Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -43,16 +42,15 @@ class AjaxSubmitAction extends BaseAjaxAction
      */
     protected function runTabular($models)
     {
-        if (Model::loadMultiple($models,  Yii::$app->request->post()) && Model::validateMultiple($models)) {
+        if ($success = Model::validateMultiple($models)) {
             foreach ($models as $model) {
                 $model->save(false);
             }
-            return [
-                'success' => true,
-                'modeldata' => ArrayHelper::toArray($models),
-            ];
         }
-        return false;
+        return [
+            'success' => $success,
+            'modeldata' => ArrayHelper::toArray($models),
+        ];
     }
     
     /**
@@ -60,12 +58,9 @@ class AjaxSubmitAction extends BaseAjaxAction
      */
     protected function runSingle($model)
     {
-        if ($model->load(Yii::$app->request->post())) {
-            return [
-                'success' => $model->save(),
-                'modeldata' => $model->toArray(),
-            ];
-        }
-        return false;
+        return [
+            'success' => $model->save(),
+            'modeldata' => $model->toArray(),
+        ];
     }
 }

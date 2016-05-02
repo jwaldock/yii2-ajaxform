@@ -90,9 +90,8 @@
                     } else {
                         data.submitted = false;
                     }
-
-                    $form.trigger(events.submitEnd, [response.success, response.modeldata]);
                     setSavingButton(data, false);
+                    $form.trigger(events.submitEnd, [response.success, response.modeldata]);
                 }).fail( function(xhr, textStatus, errorThrown) {
                     data.submitted = false;
                     setSavingButton(data, false);

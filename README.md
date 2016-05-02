@@ -8,17 +8,13 @@ Installation
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Add
-<<<<<<< HEAD
 
 ```
 "repositories":[
     {
         "type": "git",
-<<<<<<< HEAD
         "url": "https://github.com/jwaldock/yii2-ajaxform"
-=======
         "url": "https://path.to/your/repo"
->>>>>>> origin/master
     }
 ]
 ```
@@ -32,14 +28,10 @@ php composer.phar require jwaldock/yii2-ajaxform:dev-master
 ```
 
 or add.
-<<<<<<< HEAD
 
 ```
 "jwaldock/yii2-ajaxform": "dev-master"
 ```
-
-=======
-=======
 
 ```
 "repositories":[
@@ -59,16 +51,11 @@ php composer.phar require jwaldock/yii2-ajaxform:dev-master
 ```
 
 or add.
->>>>>>> origin/master
 
 ```
 "jwaldock/yii2-ajaxform": "dev-master"
 ```
 
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 to the require section of your `composer.json` file
 
 Usage
@@ -78,7 +65,6 @@ Set up AJAX validation for your
 `yiiAjaxForm` provides three events `submitBegin`, `submitEnd` and `submitFailed`. 
 Event handlers for these events should have the following function signatures:
 
-<<<<<<< HEAD
 
 ```js
 // 'submitBegin' event
@@ -105,7 +91,21 @@ function (event, xhr) {
 }
 ```
 
-<<<<<<< HEAD
+```php
+public function actions()
+{
+   return [
+       'submit-model' => [
+           'class' => 'jwaldock\ajaxform\AjaxSubmitAction',
+           'modelClass' => 'model', // the fully qualified class name of the model  
+           'tabular' => true, // set to true if using a tabular form - defaults to false
+           'scenario' => 'model-scenario' // optional model scenario
+       ],
+       // other actions
+   ];
+}
+```
+
 
 ```php
 <?php 
@@ -119,16 +119,11 @@ JS;
 
 AjaxFormWidget::widget([
     'form' => $form, // ActiveForm
-    'disableSubmit' => true,
-    'savingContent' => 'Saving...',
+    'disableSubmit' => true, // whether to disable the submit button on submitting the form
+    'savingContent' => 'Saving...', the inner html content of the submit button when saving
     'clientEvents' => [
         'submitEnd' => $js,
     ],
 ]);
-AjaxFormAsset::register($this);
 ?>
 ```
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master

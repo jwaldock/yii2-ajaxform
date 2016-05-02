@@ -47,10 +47,7 @@ class AjaxValidateAction extends BaseAjaxAction
      */
     protected function runTabular($models)
     {
-        if (Model::loadMultiple($models, Yii::$app->request->post())) {
-            return ActiveForm::validateMultiple($models);
-        }
-        return false;
+        return ActiveForm::validateMultiple($models);
     }
     
     /**
@@ -58,9 +55,6 @@ class AjaxValidateAction extends BaseAjaxAction
      */
     protected function runSingle($model)
     {       
-        if ($model->load(Yii::$app->request->post())) {
-            return ActiveForm::validate($model);
-        }
-        return false;
+        return ActiveForm::validate($model);
     }
 }
