@@ -1,4 +1,8 @@
 <?php
+/**
+ * @link https://github.com/jwaldock/yii2-ajaxform/
+ * @copyright Copyright (c) 2016 Joel Waldock
+ */
 
 namespace jwaldock\ajaxform;
 
@@ -8,6 +12,13 @@ use yii\db\ActiveRecord;
 use yii\web\HttpException;
 use yii\web\Response;
 
+/**
+ * BaseAjaxAction is an abstract class that is the base for [[AjaxSubmitAction]] and [[AjaxValidateAction]].
+ * 
+ * Implementing classes should override [[runTabular()]] and [[runSingle()]].
+ * 
+ * @author Joel Waldock <joel.c.waldock@gmail.com>
+ */
 abstract class BaseAjaxAction extends Action
 {
     /**
@@ -28,8 +39,7 @@ abstract class BaseAjaxAction extends Action
     public $scenario;
 
     /**
-     * {@inheritDoc}
-     * @see \yii\base\Action::beforeRun()
+     * @inheritDoc
      */
     public function beforeRun()
     {
@@ -86,6 +96,10 @@ abstract class BaseAjaxAction extends Action
     }
 
     /**
+     * Returns a JSON array generated from multiple models.
+     * 
+     * The resulting array called and returned by [[run()]] if in tabular mode.
+     * 
      * @param \yii\db\ActiveRecord[] $models
      * @return array JSON 
      */
@@ -93,6 +107,10 @@ abstract class BaseAjaxAction extends Action
     
 
     /**
+     * Returns a JSON array generated from a single model.
+     * 
+     * The resulting array called and returned by [[run()]] if in single mode.
+     * 
      * @param \yii\db\ActiveRecord $model
      * @return array JSON 
      */

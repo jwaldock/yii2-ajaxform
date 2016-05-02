@@ -1,4 +1,8 @@
 <?php
+/**
+ * @link https://github.com/jwaldock/yii2-ajaxform/
+ * @copyright Copyright (c) 2016 Joel Waldock
+ */
 
 namespace jwaldock\ajaxform;
 
@@ -6,6 +10,9 @@ use yii\base\Widget;
 use yii\helpers\Json;
 
 /**
+ * AjaxFormWidget is a widget that provides AJAX save for [[\yii\widgets\ActiveForm]].
+ * TODO docs
+ * 
  * @author Joel Waldock
  */
 class AjaxFormWidget extends Widget
@@ -42,8 +49,7 @@ class AjaxFormWidget extends Widget
     public $clientEvents;
 
     /**
-     * {@inheritDoc}
-     * @see \yii\base\Widget::run()
+     * @inheritDoc
      */
     public function run()
     {
