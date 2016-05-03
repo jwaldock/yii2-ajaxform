@@ -15,8 +15,7 @@ use yii\web\AssetBundle;
  */
 class AjaxFormAsset extends AssetBundle
 {
-
-    public $sourcePath = __DIR__ . '/assets';
+    public $sourcePath = '@jwaldock/ajaxform/assets';
 
     public $js = [
         'yii.ajaxForm.js'
