@@ -72,8 +72,10 @@ abstract class BaseAjaxAction extends Action
     }
 
     /**
-     * @throws HttpException
-     * @return \yii\db\ActiveRecord
+     * Loads [[yii\db\ActiveRecord]] with data from POST request.
+     * 
+     * @throws HttpException - if the model can't be loaded
+     * @return \yii\db\ActiveRecord the model populated with data from the POST request
      */
     protected function loadModel()
     {
@@ -85,8 +87,10 @@ abstract class BaseAjaxAction extends Action
     }
 
     /**
-     * @throws HttpException
-     * @return \yii\db\ActiveRecord[]
+     * Loads array of [[yii\db\ActiveRecord]] with data from POST request.
+     * 
+     * @throws HttpException - if the models can't be loaded
+     * @return \yii\db\ActiveRecord[] the models populated with data from the POST request
      */
     protected function loadModels()
     {
@@ -103,7 +107,9 @@ abstract class BaseAjaxAction extends Action
     
 
     /**
-     * @return \yii\db\ActiveRecord
+     * Creates an instance of modelClass with the defined scenario.
+     * 
+     * @return \yii\db\ActiveRecord the new instance of modelClass
      */
     protected function createModel()
     {
