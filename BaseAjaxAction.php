@@ -8,10 +8,10 @@ namespace jwaldock\ajaxform;
 
 use yii\base\Action;
 use Yii;
-use yii\db\ActiveRecord;
+use yii\base\Model;
 use yii\web\HttpException;
 use yii\web\Response;
-use yii\base\Model;
+use yii\base\InvalidConfigException;
 
 /**
  * BaseAjaxAction is an abstract class that is the base for [[AjaxSubmitAction]] and [[AjaxValidateAction]].
@@ -24,7 +24,7 @@ abstract class BaseAjaxAction extends Action
 {
     /**
      * @var string class name of the model which will be handled by this action.
-     * The model class must be an instance of [[ActiveRecord]].
+     * The model class must be a subclass of [[baseModelClass]].
      */
     public $modelClass;
 
@@ -36,8 +36,25 @@ abstract class BaseAjaxAction extends Action
     /**
      * @var string The scenario to use when creating a model or models.
      */
-    public $scenario = ActiveRecord::SCENARIO_DEFAULT;
+    public $scenario = Model::SCENARIO_DEFAULT;
+    
+    /**
+     * @var string
+     */
+    protected $baseModelClass = 'yii\db\ActiveRecord';
 
+    /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        $modelClass = $this->modelClass;
+        $baseModelClass = $this->baseModelClass;
+        if (!is_subclass_of($modelClass, $baseModelClass)) {
+            throw new InvalidConfigException("$modelClass is not a subclass of $baseModelClass");
+        }
+    }
+    
     /**
      * @inheritDoc
      */

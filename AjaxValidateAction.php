@@ -42,6 +42,8 @@ use yii\widgets\ActiveForm;
  */
 class AjaxValidateAction extends BaseAjaxAction
 {   
+    protected $baseModelClass = 'yii\base\Model';
+    
     /**
      * @inheritDoc
      */

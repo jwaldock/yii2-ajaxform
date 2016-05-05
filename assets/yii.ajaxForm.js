@@ -56,10 +56,10 @@
          */
         var setSavingButton = function(data, setSaving) {
             var settings = data.settings;
-            if (settings.savingContent) {
-                data.submitButton.html(setSaving ? settings.savingContent : data.submitContent);
-                data.submitButton.prop('disabled', settings.disableSubmit && setSaving);
+            if (data.savingContent) {
+            	data.submitButton.html(setSaving ? settings.savingContent : data.submitContent);
             }
+            data.submitButton.prop('disabled', settings.disableSubmit && setSaving);
         }
 
         /**
@@ -71,10 +71,11 @@
             var settings = data.settings;
             var $submitButton = data.submitButton;
             
+            // alow the form to be resubmitted after being reset
             $form.on('reset', function(event) {
                 data.submitted = false;
             });
-            
+
             $form.on('beforeSubmit', function(event) {
                 var formData = $form.data('yiiActiveForm');
                 event.preventDefault();
@@ -107,7 +108,7 @@
             var $form = $(this);
             var settings = $.extend(defaults, options);
             settings.actionUrl = settings.actionUrl || $form.attr('action');
-            var $submitButton = options.submitSelector ? $(options.submitSelector) : $(':submit', $form);                
+            var $submitButton = options.submitSelector ? $(options.submitSelector) : $(':submit', $form);     
             // populate form data
             $form.data('yiiAjaxForm', {
                 settings: settings,
