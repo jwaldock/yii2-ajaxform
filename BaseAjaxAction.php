@@ -60,13 +60,11 @@ abstract class BaseAjaxAction extends Action
      */
     public function beforeRun()
     {
-
-        $request = Yii::$app->request;
-        if (!$request->isPost) {
+        if (!Yii::$app->request->isPost) {
             throw new HttpException(405, 'Only POST requests are allowed.');
         }
         
-        if (!$request->isAjax) {
+        if (!Yii::$app->request->isAjax) {
             throw new HttpException(403, 'Only AJAX requests are allowed.');
         }
         return true;

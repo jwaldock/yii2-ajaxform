@@ -1,6 +1,6 @@
 {
     "name": "jwaldock/yii2-ajaxform",
-    "description": "Provides AJAX save for yii2 ActiveForm",
+    "description": "Provides AJAX submission for yii2 ActiveForm",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","ajax","activeform","form"],
     "license": "BSD-3-Clause",

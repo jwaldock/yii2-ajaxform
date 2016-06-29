@@ -8,9 +8,10 @@ namespace jwaldock\ajaxform;
 
 use yii\base\Widget;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
- * AjaxFormWidget is a widget that provides AJAX save for [[\yii\widgets\ActiveForm]].
+ * AjaxFormWidget is a widget that provides AJAX submission for [[\yii\widgets\ActiveForm]].
  * TODO docs
  * 
  * @author Joel Waldock
@@ -18,25 +19,26 @@ use yii\helpers\Json;
 class AjaxFormWidget extends Widget
 {
     /**
-     * @var boolean whether to reset the form on successful save
+     * @var array|string $action the form action URL. This parameter will be processed by [[\yii\helpers\Url::to()]].
+     * Defaults to form action if not set.
+     * @see method for specifying the HTTP method for this form.
      */
-    public $resetOnSave;
+    public $action;
+    
+    /**
+     * @var boolean whether to reset the form on successful submission
+     */
+    public $resetOnSuccess;
 
     /**
-     * @var boolean whether to disable the submit button on saving
+     * @var boolean whether form must be reset before it can be submitted again
      */
-    public $disableSubmit;
+    public $requireReset;
     
     /**
-     * @var string content for the submit button on save - if not set the submit button content
-     * will not change on save.
+     * @var string 
      */
-    public $savingContent;
-    
-    /**
-     * @var string selector for submit button. Only needed if form does not contain submit button.
-     */
-    public $submitSelector;
+    public $failCallback;
     
     /**
      * @var \yii\widgets\ActiveForm the form that ajax saving is registered for.
@@ -58,7 +60,7 @@ class AjaxFormWidget extends Widget
         $options = Json::htmlEncode($this->getClientOptions());
         
         AjaxFormAsset::register($view);
-        $view->registerJs("jQuery('#$id').yiiAjaxForm($options);");
+        $view->registerJs("jQuery('#$id').ajaxForm($options);");
         $this->registerClientEvents();
     }
     
@@ -69,10 +71,10 @@ class AjaxFormWidget extends Widget
     protected function getClientOptions()
     {
         $options = [
-            'resetOnSave' => $this->resetOnSave,
-            'disableSubmit' => $this->disableSubmit,
-            'savingContent' => $this->savingContent,
-            'submitSelector' => $this->submitSelector,
+            'resetOnSuccess' => $this->resetOnSuccess,
+            'requireReset' => $this->requireReset,
+            'failCallback' => $this->failCallback,
+            'action' => Url::to($this->action),
         ];
         
         return array_filter($options, function($value) { return $value !== null;});

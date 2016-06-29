@@ -6,7 +6,6 @@
 
 namespace jwaldock\ajaxform;
 
-use Yii;
 use yii\base\Model;
 use yii\widgets\ActiveForm;
 
